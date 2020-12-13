@@ -254,9 +254,9 @@ ${answers.tests}\n`;
   }
   // Creating the table of contents sections
   function createTableOfContent(arr) {
-    var contentSection = "Table Of Contents\n";
+    var contentSection = "## Table Of Contents\n";
     for (let i = 0; i < arr.length; i++) {
-      contentSection += arr[i] + "\n";
+      contentSection += i + 1 + "." + arr[i] + "\n";
     }
     return contentSection;
   }
