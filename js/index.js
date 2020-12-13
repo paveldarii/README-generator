@@ -177,7 +177,7 @@ const generateREADME = (answers) => {
   var tableOfContentsList = [];
   //Check for the title input
   if (answers.title !== "") {
-    titleSection = `#${answers.title}\n`;
+    titleSection = `# ${answers.title}\n`;
   } else {
     titleSection = "";
   }
@@ -195,7 +195,7 @@ const generateREADME = (answers) => {
   }
   // Description of the project section
   if (answers.description !== "") {
-    descriptionSection = `##Description
+    descriptionSection = `## Description
 ${answers.description}\n`;
     tableOfContentsList.push(`[Description](#description)`);
   } else {
@@ -203,7 +203,7 @@ ${answers.description}\n`;
   }
   //Installation of the project section
   if (answers.installation !== "") {
-    installationSection = `##Installation
+    installationSection = `## Installation
 ${answers.installation}\n`;
     tableOfContentsList.push(`[Installation](#installation)`);
   } else {
@@ -211,7 +211,7 @@ ${answers.installation}\n`;
   }
   // Usage section
   if (answers.usage !== "") {
-    usageSection = `##Usage
+    usageSection = `## Usage
 ${answers.usage}\n`;
     tableOfContentsList.push(`[Usage](#usage)`);
   } else {
@@ -219,7 +219,7 @@ ${answers.usage}\n`;
   }
   //Contribution section
   if (answers.contribute !== "") {
-    contributeSection = `##Contribution
+    contributeSection = `## Contribution
 ${answers.contribute}\n`;
     tableOfContentsList.push(`[Contribution](#Contribution)`);
   } else {
@@ -227,7 +227,7 @@ ${answers.contribute}\n`;
   }
   //Tests section
   if (answers.tests !== "") {
-    testsSection = `##Tests
+    testsSection = `## Tests
 ${answers.tests}\n`;
     tableOfContentsList.push(`[Tests](#tests)`);
   } else {
@@ -235,7 +235,7 @@ ${answers.tests}\n`;
   }
   // Question Section
   if (answers.gitHubProfileSection !== "" || answers.email !== "") {
-    questionsSection = `##Questions\n`;
+    questionsSection = `## Questions\n`;
     tableOfContentsList.push(`[Question](#question)`);
   } else {
     questionsSection = "";
@@ -254,9 +254,9 @@ ${answers.tests}\n`;
   }
   // Creating the table of contents sections
   function createTableOfContent(arr) {
-    var contentSection = "Table Of Content\n";
+    var contentSection = "Table Of Contents\n";
     for (let i = 0; i < arr.length; i++) {
-      contentSection += arr[i];
+      contentSection += arr[i] + "\n";
     }
     return contentSection;
   }
