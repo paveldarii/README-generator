@@ -168,7 +168,9 @@ const generateREADME = (answers) => {
     installationSection,
     usageSection,
     contributeSection,
-    testsSection;
+    testsSection,
+    questionsSection,
+    gitHubProfileSection;
 
   //Check for the title input
   if (answers.title !== "") {
@@ -222,12 +224,21 @@ ${answers.tests}\n`;
   } else {
     testsSection = "";
   }
-  if (answers.description !== "") {
+  // Question Section
+  if (answers.gitHubProfileSection !== "" || answers.email !== "") {
+    questionsSection = `##Questions\n`;
   } else {
+    questionsSection = "";
+  }
+  //GitHub Line
+  if (answers.gitHubUserName !== "") {
+    gitHubProfileSection = `My GitHub profile: [github.com/${answers.gitHubUserName}](github.com/${answers.gitHubUserName}).\n`;
+  } else {
+    gitHubProfileSection = "";
   }
 
   // setting sections in the order they should display
-  var readmeContent = `${titleSection}${licenseSection}${descriptionSection}${installationSection}${contributeSection}${testsSection}`;
+  var readmeContent = `${titleSection}${licenseSection}${descriptionSection}${installationSection}${contributeSection}${testsSection}${questionsSection}${gitHubProfileSection}`;
   return readmeContent;
 };
 
