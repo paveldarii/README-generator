@@ -146,8 +146,8 @@ const promptUser = () =>
         "30. PostgreSQL License	\n" +
         "31. SIL Open Font License 1.1	\n" +
         "32. University of Illinois/NCSA Open Source License\n" +
-        "33. Without license\n" +
-        "Enter the number of the licence that you prefer from the list above?",
+        "33. Without license\n\n" +
+        "From the list above, enter the number of the licence that you prefer?",
     },
     {
       type: "input",
@@ -170,7 +170,8 @@ const generateREADME = (answers) => {
     contributeSection,
     testsSection,
     questionsSection,
-    gitHubProfileSection;
+    gitHubProfileSection,
+    emailSection;
 
   //Check for the title input
   if (answers.title !== "") {
@@ -236,9 +237,14 @@ ${answers.tests}\n`;
   } else {
     gitHubProfileSection = "";
   }
-
+  //Email line
+  if (answers.email !== "") {
+    emailSection = `My email address: ${answers.email}`;
+  } else {
+    gitHubProfileSection = "";
+  }
   // setting sections in the order they should display
-  var readmeContent = `${titleSection}${licenseSection}${descriptionSection}${installationSection}${contributeSection}${testsSection}${questionsSection}${gitHubProfileSection}`;
+  var readmeContent = `${titleSection}${licenseSection}${descriptionSection}${installationSection}${contributeSection}${testsSection}${questionsSection}${gitHubProfileSection}${emailSection}`;
   return readmeContent;
 };
 
