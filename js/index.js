@@ -166,7 +166,8 @@ const generateREADME = (answers) => {
     licenseSection,
     descriptionSection,
     installationSection,
-    usageSection;
+    usageSection,
+    contributeSection;
 
   //Check for the title input
   if (answers.title !== "") {
@@ -206,8 +207,12 @@ ${answers.usage}\n`;
   } else {
     usageSection = "";
   }
-  if (answers.description !== "") {
+  //Contribution section
+  if (answers.contribute !== "") {
+    contributeSection = `##Contribution
+${answers.contribute}\n`;
   } else {
+    contributeSection = "";
   }
   if (answers.description !== "") {
   } else {
