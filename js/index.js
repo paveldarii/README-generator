@@ -242,7 +242,7 @@ ${answers.tests}\n`;
   }
   //GitHub Line
   if (answers.gitHubUserName !== "") {
-    gitHubProfileSection = `My GitHub profile: [github.com/${answers.gitHubUserName}](github.com/${answers.gitHubUserName}).\n`;
+    gitHubProfileSection = `My GitHub profile: [https://github.com/${answers.gitHubUserName}](https://github.com/${answers.gitHubUserName}).\n`;
   } else {
     gitHubProfileSection = "";
   }
@@ -256,7 +256,7 @@ ${answers.tests}\n`;
   function createTableOfContent(arr) {
     var contentSection = "## Table Of Contents\n";
     for (let i = 0; i < arr.length; i++) {
-      contentSection += i + 1 + "." + arr[i] + "\n";
+      contentSection += "\n" + i + 1 + "." + arr[i];
     }
     return contentSection;
   }
