@@ -167,7 +167,8 @@ const generateREADME = (answers) => {
     descriptionSection,
     installationSection,
     usageSection,
-    contributeSection;
+    contributeSection,
+    testsSection;
 
   //Check for the title input
   if (answers.title !== "") {
@@ -214,12 +215,19 @@ ${answers.contribute}\n`;
   } else {
     contributeSection = "";
   }
+  //Tests section
+  if (answers.tests !== "") {
+    testsSection = `##Tests
+${answers.tests}\n`;
+  } else {
+    testsSection = "";
+  }
   if (answers.description !== "") {
   } else {
   }
 
   // setting sections in the order they should display
-  var readmeContent = `${titleSection}${licenseSection}${descriptionSection}${installationSection}`;
+  var readmeContent = `${titleSection}${licenseSection}${descriptionSection}${installationSection}${contributeSection}${testsSection}`;
   return readmeContent;
 };
 
