@@ -77,7 +77,6 @@ const licenses = [
   "University of Illinois/NCSA Open Source License	",
   "The Unlicense",
 ];
-console.log(licenseKeys.length, licenses.length);
 
 const promptUser = () =>
   inquirer.prompt([
@@ -256,7 +255,7 @@ ${answers.tests}\n`;
   function createTableOfContent(arr) {
     var contentSection = "## Table Of Contents\n";
     for (let i = 0; i < arr.length; i++) {
-      contentSection += "\n" + i + 1 + "." + arr[i];
+      contentSection += "\n" + (i + 1) + "." + arr[i] + "\n";
     }
     return contentSection;
   }
