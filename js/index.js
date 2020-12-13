@@ -236,19 +236,19 @@ ${answers.tests}\n`;
   // Question Section
   if (answers.gitHubProfileSection !== "" || answers.email !== "") {
     questionsSection = `## Questions\n`;
-    tableOfContentsList.push(`[Question](#question)`);
+    tableOfContentsList.push(`[Questions](#questions)`);
   } else {
     questionsSection = "";
   }
   //GitHub Line
   if (answers.gitHubUserName !== "") {
-    gitHubProfileSection = `My GitHub profile: [github.com/${answers.gitHubUserName}](github.com/${answers.gitHubUserName}).\n \\`;
+    gitHubProfileSection = `My GitHub profile: [github.com/${answers.gitHubUserName}](github.com/${answers.gitHubUserName}).\n`;
   } else {
     gitHubProfileSection = "";
   }
   //Email line
   if (answers.email !== "") {
-    emailSection = `My email address: ${answers.email}`;
+    emailSection = `\nMy email address: ${answers.email}`;
   } else {
     gitHubProfileSection = "";
   }
