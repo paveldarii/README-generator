@@ -162,7 +162,11 @@ const promptUser = () =>
   ]);
 
 const generateREADME = (answers) => {
-  var titleSection, licenseSection, descriptionSection, installationSection;
+  var titleSection,
+    licenseSection,
+    descriptionSection,
+    installationSection,
+    usageSection;
 
   //Check for the title input
   if (answers.title !== "") {
@@ -181,21 +185,26 @@ const generateREADME = (answers) => {
   } else {
     licenseSection = "";
   }
-  // Description of the project
+  // Description of the project section
   if (answers.description !== "") {
     descriptionSection = `##Description
 ${answers.description}\n`;
   } else {
     descriptionSection = "";
   }
+  //Installation of the project section
   if (answers.installation !== "") {
     installationSection = `##Installation
 ${answers.installation}\n`;
   } else {
     installationSection = "";
   }
-  if (answers.description !== "") {
+  // Usage section
+  if (answers.usage !== "") {
+    usageSection = `##Usage
+${answers.usage}\n`;
   } else {
+    usageSection = "";
   }
   if (answers.description !== "") {
   } else {
