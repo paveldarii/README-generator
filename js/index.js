@@ -1,6 +1,7 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 const util = require("util");
+const { PassThrough } = require("stream");
 
 const writeFileAsync = util.promisify(fs.writeFile);
 const licenseKeys = [
@@ -111,7 +112,7 @@ const promptUser = () =>
     },
     {
       type: "input",
-      name: "licenceNum",
+      name: "licenseNum",
       message:
         "1. Academic Free License v3.0\n" +
         "2. Apache license 2.0\n" +
@@ -160,13 +161,29 @@ const promptUser = () =>
     },
   ]);
 
-const generateREADME = (answers) => `#${answers.title}\n
-
-`;
+const generateREADME = (answers) => {
+  var titleSection;
+  var licenseSection;
+  //Check for the title input
+  if (answers.title !== "") {
+    titleSection = `#${answers.title}\n`;
+  }
+  //Check the license input
+  if (parseInt(answers.licenseNum) > 0 && parseInt(answers.licenseNum) < 34) {
+    licenseSection = `## License
+[${
+      licenses[parseInt(answers.licenseNum)]
+    }](https://choosealicense.com/licenses/${
+      licenseKeys[parseInt(answers.licenseNum)]
+    }/)`;
+  }
+  let readmeContent = `${titleSection}\n${licenseSection}`;
+  return readmeContent;
+};
 
 promptUser()
-  .then((answers) =>
-    writeFileAsync("../generated-readme/README.md", generateREADME(answers))
-  )
+  .then((answers) => {
+    writeFileAsync("../generated-readme/README.md", generateREADME(answers));
+  })
   .then(() => console.log("Successfully wrote to index.html"))
   .catch((err) => console.error(err));
