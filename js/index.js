@@ -242,7 +242,7 @@ ${answers.tests}\n`;
   }
   //GitHub Line
   if (answers.gitHubUserName !== "") {
-    gitHubProfileSection = `My GitHub profile: [github.com/${answers.gitHubUserName}](github.com/${answers.gitHubUserName}).\n`;
+    gitHubProfileSection = `My GitHub profile: [github.com/${answers.gitHubUserName}](github.com/${answers.gitHubUserName}).\n \\`;
   } else {
     gitHubProfileSection = "";
   }
@@ -262,7 +262,7 @@ ${answers.tests}\n`;
   }
   tableOfContentsSection = createTableOfContent(tableOfContentsList);
   // setting sections in the order they should display
-  var readmeContent = `${titleSection}${tableOfContentsSection}${licenseSection}${descriptionSection}${installationSection}${contributeSection}${testsSection}${questionsSection}${gitHubProfileSection}${emailSection}`;
+  var readmeContent = `${titleSection}${tableOfContentsSection}${licenseSection}${descriptionSection}${installationSection}${usageSection}${contributeSection}${testsSection}${questionsSection}${gitHubProfileSection}${emailSection}`;
   return readmeContent;
 };
 
