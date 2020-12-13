@@ -164,9 +164,12 @@ const promptUser = () =>
 const generateREADME = (answers) => {
   var titleSection;
   var licenseSection;
+  var descriptionSection;
   //Check for the title input
   if (answers.title !== "") {
     titleSection = `#${answers.title}\n`;
+  } else {
+    titleSection = "";
   }
   //Check the license input
   if (parseInt(answers.licenseNum) > 0 && parseInt(answers.licenseNum) < 34) {
@@ -175,9 +178,30 @@ const generateREADME = (answers) => {
       licenses[parseInt(answers.licenseNum)]
     }](https://choosealicense.com/licenses/${
       licenseKeys[parseInt(answers.licenseNum)]
-    }/)`;
+    }/)\n`;
+  } else {
+    licenseSection = "";
   }
-  let readmeContent = `${titleSection}\n${licenseSection}`;
+  // Description of the project
+  if (answers.description !== "") {
+    descriptionSection = `${answers.description}\n`;
+  } else {
+    descriptionSection = "";
+  }
+  if (answers.description !== "") {
+  } else {
+  }
+  if (answers.description !== "") {
+  } else {
+  }
+  if (answers.description !== "") {
+  } else {
+  }
+  if (answers.description !== "") {
+  } else {
+  }
+
+  var readmeContent = `${titleSection}${licenseSection}${descriptionSection}`;
   return readmeContent;
 };
 
