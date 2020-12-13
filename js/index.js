@@ -8,38 +8,55 @@ const promptUser = () =>
   inquirer.prompt([
     {
       type: "input",
-      name: "name",
-      message: "What is your name?",
+      name: "gitHubUserName",
+      message: "What is you GitHub username?",
     },
     {
       type: "input",
-      name: "location",
-      message: "Where are you from?",
+      name: "email",
+      message: "What is your email?",
     },
     {
       type: "input",
-      name: "hobby",
-      message: "What is your favorite hobby?",
+      name: "description",
+      message: "How would you describe your project?",
     },
     {
       type: "input",
-      name: "food",
-      message: "What is your favorite food?",
+      name: "installation",
+      message: "How to install your program?",
     },
     {
       type: "input",
-      name: "github",
-      message: "Enter your GitHub Username",
+      name: "usage",
+      message: "How to use your program?",
     },
     {
       type: "input",
-      name: "linkedin",
-      message: "Enter your LinkedIn URL.",
+      name: "licence",
+      message: "Chose the licence that you prefer?",
+    },
+    {
+      type: "input",
+      name: "contribute",
+      message: "How to contribute to your project?",
+    },
+    {
+      type: "input",
+      name: "tests",
+      message: "Explain testing procedures?",
+    },
+    {
+      type: "input",
+      name: "questions",
+      message: "Explain testing procedures?",
     },
   ]);
 
 const generateREADME = (answers) =>
   `
+  Description, Table of Contents, Installation, Usage, License, Contributing, Tests, and Questions
+  
 `;
 
 promptUser()
