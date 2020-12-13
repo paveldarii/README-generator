@@ -162,9 +162,8 @@ const promptUser = () =>
   ]);
 
 const generateREADME = (answers) => {
-  var titleSection;
-  var licenseSection;
-  var descriptionSection;
+  var titleSection, licenseSection, descriptionSection, installationSection;
+
   //Check for the title input
   if (answers.title !== "") {
     titleSection = `#${answers.title}\n`;
@@ -184,12 +183,16 @@ const generateREADME = (answers) => {
   }
   // Description of the project
   if (answers.description !== "") {
-    descriptionSection = `${answers.description}\n`;
+    descriptionSection = `##Description
+${answers.description}\n`;
   } else {
     descriptionSection = "";
   }
-  if (answers.description !== "") {
+  if (answers.installation !== "") {
+    installationSection = `##Installation
+${answers.installation}\n`;
   } else {
+    installationSection = "";
   }
   if (answers.description !== "") {
   } else {
@@ -201,7 +204,8 @@ const generateREADME = (answers) => {
   } else {
   }
 
-  var readmeContent = `${titleSection}${licenseSection}${descriptionSection}`;
+  // setting sections in the order they should display
+  var readmeContent = `${titleSection}${licenseSection}${descriptionSection}${installationSection}`;
   return readmeContent;
 };
 
