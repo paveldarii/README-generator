@@ -2,6 +2,7 @@ const inquirer = require("inquirer");
 const fs = require("fs");
 const util = require("util");
 const { PassThrough } = require("stream");
+const { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } = require("constants");
 
 const writeFileAsync = util.promisify(fs.writeFile);
 const licenseKeys = [
@@ -171,15 +172,16 @@ const generateREADME = (answers) => {
     testsSection,
     questionsSection,
     gitHubProfileSection,
-    emailSection;
-
+    emailSection,
+    tableOfContentsSection;
+  var tableOfContentsList = [];
   //Check for the title input
   if (answers.title !== "") {
     titleSection = `#${answers.title}\n`;
   } else {
     titleSection = "";
   }
-  //Check the license input
+  //License section
   if (parseInt(answers.licenseNum) > 0 && parseInt(answers.licenseNum) < 34) {
     licenseSection = `## License
 [${
@@ -187,6 +189,7 @@ const generateREADME = (answers) => {
     }](https://choosealicense.com/licenses/${
       licenseKeys[parseInt(answers.licenseNum)]
     }/)\n`;
+    tableOfContentsList.push(`[Licence](#licence)`);
   } else {
     licenseSection = "";
   }
@@ -194,6 +197,7 @@ const generateREADME = (answers) => {
   if (answers.description !== "") {
     descriptionSection = `##Description
 ${answers.description}\n`;
+    tableOfContentsList.push(`[Description](#description)`);
   } else {
     descriptionSection = "";
   }
@@ -201,6 +205,7 @@ ${answers.description}\n`;
   if (answers.installation !== "") {
     installationSection = `##Installation
 ${answers.installation}\n`;
+    tableOfContentsList.push(`[Installation](#installation)`);
   } else {
     installationSection = "";
   }
@@ -208,6 +213,7 @@ ${answers.installation}\n`;
   if (answers.usage !== "") {
     usageSection = `##Usage
 ${answers.usage}\n`;
+    tableOfContentsList.push(`[Usage](#usage)`);
   } else {
     usageSection = "";
   }
@@ -215,6 +221,7 @@ ${answers.usage}\n`;
   if (answers.contribute !== "") {
     contributeSection = `##Contribution
 ${answers.contribute}\n`;
+    tableOfContentsList.push(`[Contribution](#Contribution)`);
   } else {
     contributeSection = "";
   }
@@ -222,12 +229,14 @@ ${answers.contribute}\n`;
   if (answers.tests !== "") {
     testsSection = `##Tests
 ${answers.tests}\n`;
+    tableOfContentsList.push(`[Tests](#tests)`);
   } else {
     testsSection = "";
   }
   // Question Section
   if (answers.gitHubProfileSection !== "" || answers.email !== "") {
     questionsSection = `##Questions\n`;
+    tableOfContentsList.push(`[Question](#question)`);
   } else {
     questionsSection = "";
   }
@@ -243,8 +252,17 @@ ${answers.tests}\n`;
   } else {
     gitHubProfileSection = "";
   }
+  // Creating the table of contents sections
+  function createTableOfContent(arr) {
+    var contentSection = "Table Of Content\n";
+    for (let i = 0; i < arr.length; i++) {
+      contentSection += arr[i];
+    }
+    return contentSection;
+  }
+  tableOfContentsSection = createTableOfContent(tableOfContentsList);
   // setting sections in the order they should display
-  var readmeContent = `${titleSection}${licenseSection}${descriptionSection}${installationSection}${contributeSection}${testsSection}${questionsSection}${gitHubProfileSection}${emailSection}`;
+  var readmeContent = `${titleSection}${tableOfContentsSection}${licenseSection}${descriptionSection}${installationSection}${contributeSection}${testsSection}${questionsSection}${gitHubProfileSection}${emailSection}`;
   return readmeContent;
 };
 
