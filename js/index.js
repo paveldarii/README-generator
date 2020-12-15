@@ -33,10 +33,9 @@ const licenseLinks = [
   "https://opensource.org/licenses/Artistic-2.0",
   "https://opensource.org/licenses/OFL-1.1",
   "https://opensource.org/licenses/Zlib",
-  "http://unlicense.org/",
 ];
 const badgeLicenseKeys = [
-  "no licence",
+  "Unlicense-blue.svg",
   "Apache%202.0-blue.svg",
   "Boost%201.0-lightblue.svg",
   "BSD%203--Clause-blue.svg",
@@ -65,7 +64,6 @@ const badgeLicenseKeys = [
   "Artistic%202.0-0298c3.svg",
   "OFL%201.1-lightgreen.svg",
   "Zlib-lightgrey.svg",
-  "Unlicense-blue.svg",
 ];
 const licenses = [
   "The Unlicence",
@@ -79,7 +77,6 @@ const licenses = [
   "Attribution-NonCommercial 4.0 International",
   "Attribution-NoDerivates 4.0 International",
   "Attribution-NonCommmercial-ShareAlike 4.0 International",
-  "Creative Commons Attribution Share Alike 4.0	",
   "Attribution-NonCommercial-NoDerivatives 4.0 International",
   "Eclipse Public License 1.0",
   "GNU GPL v3	",
@@ -98,7 +95,6 @@ const licenses = [
   "The Artistic License 2.0",
   "SIL Open Font License 1.1",
   "Zlib",
-  "The Unlicense",
 ];
 
 const promptUser = () =>
@@ -137,7 +133,7 @@ const promptUser = () =>
       type: "input",
       name: "licenseNum",
       message:
-        "0 no licence\n" +
+        "\n0 The Unlicense\n" +
         "1 Apache 2.0 License\n" +
         "2 Boost Software License 1.0\n" +
         "3 BSD 3-Clause License	\n" +
@@ -166,7 +162,7 @@ const promptUser = () =>
         "26 The Artistic License 2.0\n" +
         "27 SIL Open Font License 1.1\n" +
         "28 Zlib\n" +
-        "29 The Unlicense\n",
+        "From the above list, enter the number of the license you prefer to have?",
     },
     {
       type: "input",
@@ -201,7 +197,7 @@ const generateREADME = (answers) => {
     titleSection = "";
   }
   //License section
-  if (parseInt(answers.licenseNum) > 0 && parseInt(answers.licenseNum) < 30) {
+  if (parseInt(answers.licenseNum) >= 0 && parseInt(answers.licenseNum) < 29) {
     licenseSection = `## License
 [${licenses[parseInt(answers.licenseNum)]}](${
       licenseLinks[parseInt(answers.licenseNum)]
@@ -211,7 +207,7 @@ const generateREADME = (answers) => {
     licenseSection = "";
   }
   //License badge section
-  if (parseInt(answers.licenseNum) > 0 && parseInt(answers.licenseNum) < 30) {
+  if (parseInt(answers.licenseNum) >= 0 && parseInt(answers.licenseNum) < 29) {
     licenseBadge = `[![License: GPL v3](https://img.shields.io/badge/License-${
       badgeLicenseKeys[parseInt(answers.licenseNum)]
     })](${licenseLinks[parseInt(answers.licenseNum)]})\n`;
@@ -275,7 +271,7 @@ ${answers.tests}\n`;
   if (answers.email !== "") {
     emailSection = `\nMy email address: ${answers.email}\n`;
   } else {
-    gitHubProfileSection = "";
+    emailSection = "";
   }
   // Creating the table of contents sections
   function createTableOfContent(arr) {
@@ -285,7 +281,11 @@ ${answers.tests}\n`;
     }
     return contentSection;
   }
-  tableOfContentsSection = createTableOfContent(tableOfContentsList);
+  if (tableOfContentsList.length > 0) {
+    tableOfContentsSection = createTableOfContent(tableOfContentsList);
+  } else {
+    tableOfContentsSection = "";
+  }
 
   // setting sections in the order they should display
   var readmeContent = `${titleSection}${licenseBadge}${tableOfContentsSection}${descriptionSection}${installationSection}${usageSection}${contributeSection}${testsSection}${questionsSection}${gitHubProfileSection}${emailSection}${licenseSection}`;
