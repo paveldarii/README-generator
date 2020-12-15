@@ -47,7 +47,10 @@ node index.js
 ```
 
 Make sure that you are in js folder directory.
+
 After you run the index.js file, you should get several questions regarding what needs to be inserted in the readme file, so after you answered all the questions, automatically will be generated a README file in the generated-readme folder.
+
+[YouTube readme generator usage demo](https://www.youtube.com/watch?v=Hj7nX4s07zA&t=1s)
 
 ## Questions
 
