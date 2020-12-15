@@ -1,80 +1,103 @@
 const inquirer = require("inquirer");
-const fs = require("fs");
 const util = require("util");
-const { PassThrough } = require("stream");
-const { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } = require("constants");
+const fs = require("fs");
 
 const writeFileAsync = util.promisify(fs.writeFile);
-const licenseKeys = [
+const licenseLinks = [
+  "http://unlicense.org/",
+  "https://opensource.org/licenses/Apache-2.0",
+  "https://www.boost.org/LICENSE_1_0.txt",
+  "https://opensource.org/licenses/BSD-3-Clause",
+  "https://opensource.org/licenses/BSD-2-Clause",
+  "http://creativecommons.org/publicdomain/zero/1.0",
+  "https://creativecommons.org/licenses/by/4.0/",
+  "https://creativecommons.org/licenses/by-sa/4.0/",
+  "https://creativecommons.org/licenses/by-nc/4.0/",
+  "https://creativecommons.org/licenses/by-nd/4.0/",
+  "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+  "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+  "https://opensource.org/licenses/EPL-1.0",
+  "https://www.gnu.org/licenses/gpl-3.0",
+  "https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html",
+  "https://www.gnu.org/licenses/agpl-3.0",
+  "https://www.gnu.org/licenses/lgpl-3.0",
+  "https://www.gnu.org/licenses/fdl-1.3",
+  "https://opensource.org/licenses/IPL-1.0",
+  "https://opensource.org/licenses/ISC",
+  "https://opensource.org/licenses/MIT",
+  "https://opensource.org/licenses/MPL-2.0",
+  "https://opendatacommons.org/licenses/by/",
+  "https://opendatacommons.org/licenses/odbl/",
+  "https://opendatacommons.org/licenses/pddl/",
+  "https://opensource.org/licenses/Artistic-2.0",
+  "https://opensource.org/licenses/Artistic-2.0",
+  "https://opensource.org/licenses/OFL-1.1",
+  "https://opensource.org/licenses/Zlib",
+  "http://unlicense.org/",
+];
+const badgeLicenseKeys = [
   "no licence",
-  "afl-3.0",
-  "apache-2.0",
-  "artistic-2.0",
-  "bsl-1.0",
-  "bsd-2-clause",
-  "bsd-3-clause",
-  "bsd-3-clause-clear",
-  "cc",
-  "cc0-1.0",
-  "cc-by-4.0",
-  "cc-by-sa-4.0",
-  "zlib",
-  "ecl-2.0",
-  "epl-1.0",
-  "epl-2.0",
-  "eupl-1.1",
-  "agpl-3.0",
-  "gpl",
-  "gpl-2.0",
-  "gpl-3.0",
-  "lgpl",
-  "lgpl-2.1",
-  "lgpl-3.0",
-  "isc",
-  "lppl-1.3c",
-  "ms-pl",
-  "mit",
-  "mpl-2.0",
-  "osl-3.0",
-  "postgresql",
-  "ofl-1.1",
-  "ncsa",
-  "unlicense",
+  "Apache%202.0-blue.svg",
+  "Boost%201.0-lightblue.svg",
+  "BSD%203--Clause-blue.svg",
+  "BSD%202--Clause-orange.svg",
+  "CC0%201.0-lightgrey.svg",
+  "CC%20BY%204.0-lightgrey.svg",
+  "CC%20BY--SA%204.0-lightgrey.svg",
+  "CC%20BY--NC%204.0-lightgrey.svg",
+  "CC%20BY--ND%204.0-lightgrey.svg",
+  "CC%20BY--NC--SA%204.0-lightgrey.svg",
+  "CC%20BY--NC--ND%204.0-lightgrey.svg",
+  "EPL%201.0-red.svg",
+  "GPLv3-blue.svg",
+  "GPL%20v2-blue.svg",
+  "AGPL%20v3-blue.svg",
+  "LGPL%20v3-blue.svg",
+  "FDL%20v1.3-blue.svg",
+  "IPL%201.0-blue.svg",
+  "ISC-blue.svg",
+  "MIT-yellow.svg",
+  "MPL%202.0-brightgreen.svg",
+  "ODC_BY-brightgreen.svg",
+  "ODbL-brightgreen.svg",
+  "PDDL-brightgreen.svg",
+  "Perl-0298c3.svg",
+  "Artistic%202.0-0298c3.svg",
+  "OFL%201.1-lightgreen.svg",
+  "Zlib-lightgrey.svg",
+  "Unlicense-blue.svg",
 ];
 const licenses = [
-  "no licence",
-  "Academic Free License v3.0	",
-  "Apache license 2.0",
-  "Artistic license 2.0	",
-  "Boost Software License 1.0	",
-  "BSD 2-clause 'Simplified' license	",
-  "BSD 3-clause 'New' or 'Revised' license	",
-  "BSD 3-clause Clear license",
-  "Creative Commons license family	",
-  "Creative Commons Zero v1.0 Universal	",
-  "Creative Commons Attribution 4.0	",
+  "The Unlicence",
+  "Apache 2.0 License",
+  "Boost Software License 1.0",
+  "BSD 3-Clause License	",
+  "BSD 2-Clause License",
+  "CC0",
+  "Attribution 4.0 International",
+  "Attribution-ShareAlike 4.0 International",
+  "Attribution-NonCommercial 4.0 International",
+  "Attribution-NoDerivates 4.0 International",
+  "Attribution-NonCommmercial-ShareAlike 4.0 International",
   "Creative Commons Attribution Share Alike 4.0	",
-  "zLib License	",
-  "Educational Community License v2.0",
-  "Eclipse Public License 1.0	",
-  "Eclipse Public License 2.0	",
-  "European Union Public License 1.1	",
-  "GNU Affero General Public License v3.0	",
-  "GNU General Public License family	",
-  "GNU General Public License v2.0	",
-  "GNU General Public License v3.0	",
-  "GNU Lesser General Public License family	",
-  "GNU Lesser General Public License v2.1	",
-  "GNU Lesser General Public License v3.0	",
-  "ISC	",
-  "LaTeX Project Public License v1.3c	",
-  "Microsoft Public License	",
-  "MIT	",
-  "Mozilla Public License 2.0	",
-  "Open Software License 3.0	",
-  "PostgreSQL License	",
-  "SIL Open Font License 1.1	",
-  "University of Illinois/NCSA Open Source License	",
+  "Attribution-NonCommercial-NoDerivatives 4.0 International",
+  "Eclipse Public License 1.0",
+  "GNU GPL v3	",
+  "GNU GPL v2",
+  "GNU AGPL v3",
+  "GNU LGPL v3	",
+  "GNU FDL v1.3",
+  "IBM Public License Version 1.0",
+  "ISC License (ISC)",
+  "The MIT License",
+  "Mozilla Public License 2.0",
+  "Attribution License (BY)",
+  "Open Database License (ODbL)",
+  "Public Domain Dedication and License (PDDL)",
+  "The Perl License",
+  "The Artistic License 2.0",
+  "SIL Open Font License 1.1",
+  "Zlib",
   "The Unlicense",
 ];
 
@@ -114,40 +137,36 @@ const promptUser = () =>
       type: "input",
       name: "licenseNum",
       message:
-        "1. Academic Free License v3.0\n" +
-        "2. Apache license 2.0\n" +
-        "3. Artistic license 2.0\n" +
-        "4. Boost Software License 1.0	\n" +
-        "5. BSD 2-clause 'Simplified' license	\n" +
-        "6. BSD 3-clause 'New' or 'Revised' \n" +
-        "7. BSD 3-clause Clear license\n" +
-        "8. Creative Commons license family	\n" +
-        "9. Creative Commons Zero v1.0 Universal\n" +
-        "10. Creative Commons Attribution 4.0\n" +
-        "11. Creative Commons Attribution Share Alike 4.0\n" +
-        "12. zLib License\n" +
-        "13. Educational Community License v2.0\n" +
-        "14. Eclipse Public License 1.0\n" +
-        "15. Eclipse Public License 2.0\n" +
-        "16. European Union Public License 1.1\n" +
-        "17. GNU Affero General Public License\n" +
-        "18. GNU General Public License family\n" +
-        "19. GNU General Public License v2.0\n" +
-        "20. GNU General Public License v3.0\n" +
-        "21. GNU Lesser General Public License family\n" +
-        "22. GNU Lesser General Public License v2.1	\n" +
-        "23. GNU Lesser General Public License	\n" +
-        "24. ISC\n" +
-        "25. LaTeX Project Public License v1.3c	\n" +
-        "26. Microsoft Public License\n" +
-        "27. MIT\n" +
-        "28. Mozilla Public License 2.0	\n" +
-        "29. Open Software License 3.0	\n" +
-        "30. PostgreSQL License	\n" +
-        "31. SIL Open Font License 1.1	\n" +
-        "32. University of Illinois/NCSA Open Source License\n" +
-        "33. Without license\n\n" +
-        "From the list above, enter the number of the licence that you prefer?",
+        "0 no licence\n" +
+        "1 Apache 2.0 License\n" +
+        "2 Boost Software License 1.0\n" +
+        "3 BSD 3-Clause License	\n" +
+        "4 BSD 2-Clause License\n" +
+        "5 CC0\n" +
+        "6 Attribution 4.0 International\n" +
+        "7 Attribution-ShareAlike 4.0 International\n" +
+        "8 Attribution-NonCommercial 4.0 International\n" +
+        "9 Attribution-NoDerivates 4.0 International\n" +
+        "10 Attribution-NonCommmercial-ShareAlike 4.0 International\n" +
+        "11 Attribution-NonCommercial-NoDerivatives 4.0 International\n" +
+        "12 Eclipse Public License 1.0\n" +
+        "13 GNU GPL v3	\n" +
+        "14 GNU GPL v2\n" +
+        "15 GNU AGPL v3\n" +
+        "16 GNU LGPL v3	\n" +
+        "17 GNU FDL v1.3\n" +
+        "18 IBM Public License Version 1.0\n" +
+        "19 ISC License (ISC)\n" +
+        "20 The MIT License\n" +
+        "21 Mozilla Public License 2.0\n" +
+        "22 Attribution License (BY)\n" +
+        "23 Open Database License (ODbL)\n" +
+        "24 Public Domain Dedication and License (PDDL)\n" +
+        "25 The Perl License\n" +
+        "26 The Artistic License 2.0\n" +
+        "27 SIL Open Font License 1.1\n" +
+        "28 Zlib\n" +
+        "29 The Unlicense\n",
     },
     {
       type: "input",
@@ -172,25 +191,32 @@ const generateREADME = (answers) => {
     questionsSection,
     gitHubProfileSection,
     emailSection,
-    tableOfContentsSection;
+    tableOfContentsSection,
+    licenseBadge;
   var tableOfContentsList = [];
   //Check for the title input
   if (answers.title !== "") {
-    titleSection = `# ${answers.title}\n`;
+    titleSection = `# ${answers.title} `;
   } else {
     titleSection = "";
   }
   //License section
-  if (parseInt(answers.licenseNum) > 0 && parseInt(answers.licenseNum) < 34) {
+  if (parseInt(answers.licenseNum) > 0 && parseInt(answers.licenseNum) < 30) {
     licenseSection = `## License
-[${
-      licenses[parseInt(answers.licenseNum)]
-    }](https://choosealicense.com/licenses/${
-      licenseKeys[parseInt(answers.licenseNum)]
+[${licenses[parseInt(answers.licenseNum)]}](${
+      licenseLinks[parseInt(answers.licenseNum)]
     }/)\n`;
-    tableOfContentsList.push(`[Licence](#licence)`);
+    tableOfContentsList.push(`[License](#license)`);
   } else {
     licenseSection = "";
+  }
+  //License badge section
+  if (parseInt(answers.licenseNum) > 0 && parseInt(answers.licenseNum) < 30) {
+    licenseBadge = `[![License: GPL v3](https://img.shields.io/badge/License-${
+      badgeLicenseKeys[parseInt(answers.licenseNum)]
+    })](${licenseLinks[parseInt(answers.licenseNum)]})\n`;
+  } else {
+    licenseBadge = "";
   }
   // Description of the project section
   if (answers.description !== "") {
@@ -247,7 +273,7 @@ ${answers.tests}\n`;
   }
   //Email line
   if (answers.email !== "") {
-    emailSection = `\nMy email address: ${answers.email}`;
+    emailSection = `\nMy email address: ${answers.email}\n`;
   } else {
     gitHubProfileSection = "";
   }
@@ -255,13 +281,14 @@ ${answers.tests}\n`;
   function createTableOfContent(arr) {
     var contentSection = "## Table Of Contents\n";
     for (let i = 0; i < arr.length; i++) {
-      contentSection += "\n" + (i + 1) + "." + arr[i] + "\n";
+      contentSection += "\n" + (i + 1) + ". " + arr[i] + "\n";
     }
     return contentSection;
   }
   tableOfContentsSection = createTableOfContent(tableOfContentsList);
+
   // setting sections in the order they should display
-  var readmeContent = `${titleSection}${tableOfContentsSection}${licenseSection}${descriptionSection}${installationSection}${usageSection}${contributeSection}${testsSection}${questionsSection}${gitHubProfileSection}${emailSection}`;
+  var readmeContent = `${titleSection}${licenseBadge}${tableOfContentsSection}${descriptionSection}${installationSection}${usageSection}${contributeSection}${testsSection}${questionsSection}${gitHubProfileSection}${emailSection}${licenseSection}`;
   return readmeContent;
 };
 
@@ -269,5 +296,9 @@ promptUser()
   .then((answers) => {
     writeFileAsync("../generated-readme/README.md", generateREADME(answers));
   })
-  .then(() => console.log("Successfully wrote to index.html"))
+  .then(() =>
+    console.log(
+      "Successfully created the README.md file.\nOpen the generated-readme folder and you will find the file you just created."
+    )
+  )
   .catch((err) => console.error(err));
